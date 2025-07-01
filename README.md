@@ -1,4 +1,4 @@
-# Docker-Course
+# Docker-Course 1-7
 
 ## Connecting to the machine
 
