@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  mydevapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+    ports:
+      - "5000:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    tty: true

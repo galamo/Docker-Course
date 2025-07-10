@@ -1,0 +1,21 @@
+@page
+@model IndexModel
+<h1>Users List</h1>
+<form method="post">
+    @Html.AntiForgeryToken()
+    <button type="submit">See Users</button>
+</form>
+<form method="get">
+    @Html.AntiForgeryToken()
+    <button type="submit">get Users</button>
+</form>
+
+@if (Model.Users != null)
+{
+    <ul>
+    @foreach (var user in Model.Users)
+    {
+        <li>@user.Name (@user.Email)</li>
+    }
+    </ul>
+}

@@ -1,8 +1,8 @@
-# 🌐 network-api
+# network-api
 
 This is a simple Node.js API that fetches your public IP using the `ipify` API.
 
-## 🛠️ How to Run with Docker
+## How to Run with Docker
 
 ### 1. Build the Docker Image
 

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "s53v9bnqoBKopFIoYm36GiI7wa7alx0XDbkU9E129Rw=",
+  "Source": "MyDevAppWithMySQL",
+  "BasePath": "_content/MyDevAppWithMySQL",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
