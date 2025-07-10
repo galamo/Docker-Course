@@ -101,3 +101,10 @@ docker run --name mysql-container-test_2 \
 -v ./data:/docker-entrypoint-initdb.d:ro \
  mysql
 ```
+
+
+
+## Check if you have MYSQL data:
+1. cd dev-apps
+2. npm init -y
+2. npm install mysql2
