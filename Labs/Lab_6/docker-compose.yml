@@ -9,7 +9,7 @@ services:
       - .:/app
       - ~/.aspnet/https:/root/.aspnet/https:ro
     ports:
-      - "5000:5000"
+      - "8000:8000"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     tty: true
