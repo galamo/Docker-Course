@@ -1,0 +1,27 @@
+{
+  "name": "lab_2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "api": "nodemon ./api/index.js",
+    "ms": "nodemon ./ms/index.js",
+    "ms2": "nodemon ./ms2/index.js",
+    "ms3": "nodemon ./ms3/index.js",
+    "compile": "tsc --watch",
+    "all": "concurrently --names \"api,ms,m2,m3\" --prefix-colors \"red,green,blue,yellow\" \"npm run api\" \"npm run ms\" \"npm run ms2\" \"npm run ms3\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "nodemon": "^3.1.10",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.3",
+    "axios": "^1.10.0",
+    "express": "^5.1.0"
+  }
+}
