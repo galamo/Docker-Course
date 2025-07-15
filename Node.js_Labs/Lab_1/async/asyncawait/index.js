@@ -1,4 +1,7 @@
+// (function(require,module, ) { // MY CODE })()
+
 const axios = require("axios");
+module.exports = { callApi1 };
 
 async function callApi1() {
   console.log("455");
@@ -17,5 +20,5 @@ callApi2();
 callApi1();
 console.log("888");
 
-// solution 
+// solution
 // 666 => 451 => 455 => 888 => 1212 || 333
