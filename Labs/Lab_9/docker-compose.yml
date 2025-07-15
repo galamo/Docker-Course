@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  node_api_1:
+    build: ./node_api_1
+    ports:
+      - "3000:3000"
+
+  node_api_2:
+    build: ./node_api_1
+    ports:
+      - "3001:3000"
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8080:8080"
+    depends_on:
+      - node_api_1
+      - node_api_2
