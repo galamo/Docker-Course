@@ -12,13 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const axios_1 = __importDefault(require("axios"));
-console.log("TS is running?");
-const userName = "tova";
-function init() {
+dotenv_1.default.config();
+const app = (0, express_1.default)();
+app.get("/health-check", function (_, res) {
+    res.send(`Api is Healthy ${new Date().toISOString()}`);
+});
+app.get("/image-processor", function (_, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield (0, axios_1.default)("https://restcountries.com/v3.1/name/isr");
-        return result.data;
+        console.log(`long-start ${new Date().toISOString()}`);
+        const result = yield axios_1.default.get("http://localhost:3000/long-ms");
+        res.send(`long ${new Date().toISOString()}`);
     });
-}
-init();
+});
+app.get("/short", function (_, res) {
+    console.log(`short-start ${new Date().toISOString()}`);
+    res.send(`short ${new Date().toISOString()}`);
+});
+app.listen(process.env.PORT, () => {
+    console.log(`Api is running on port ${process.env.PORT}`);
+});
