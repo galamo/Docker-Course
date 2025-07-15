@@ -4,6 +4,7 @@ import cors from "cors";
 import comperssion from "compression";
 import rateLimit from "express-rate-limit";
 import { requestLogger } from "./middleware/requestLogger";
+
 import data from "./c.json";
 dotenv.config();
 const app = express();
@@ -18,7 +19,6 @@ app.use(cors());
 app.use(requestLogger);
 app.use(comperssion());
 app.use(limiter);
-
 
 // helmet
 // xss
