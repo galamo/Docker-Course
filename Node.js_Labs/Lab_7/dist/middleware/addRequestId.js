@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addUserId = void 0;
-const addRequestId = () => { };
-const addUserId = () => { };
-exports.addUserId = addUserId;
+const uuid_1 = require("uuid");
+const addRequestId = (req, res, next) => {
+    res.setHeader("x-request-id", (0, uuid_1.v4)());
+    next();
+};
 exports.default = addRequestId;
