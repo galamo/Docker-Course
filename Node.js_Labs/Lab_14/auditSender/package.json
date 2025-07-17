@@ -1,0 +1,12 @@
+{
+  "name": "auditSender",
+  "version": "1.0.0",
+  "description": "Audit sender microservice that listens for login failure messages over RabbitMQ",
+  "main": "auditSender.js",
+  "scripts": {
+    "start": "node auditSender.js"
+  },
+  "dependencies": {
+    "amqplib": "^0.6.0"
+  }
+}

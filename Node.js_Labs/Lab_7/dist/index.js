@@ -22,9 +22,10 @@ const c_json_1 = __importDefault(require("./c.json"));
 const addRequestId_1 = __importDefault(require("./middleware/addRequestId"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+const defaultMaxNumberOfReq = +(process.env.WINDOW_LIMIT || 1000);
 const limiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000,
-    max: 1000,
+    max: defaultMaxNumberOfReq,
     message: "Too Many Requests!",
 });
 app.use((0, cors_1.default)());
@@ -38,12 +39,12 @@ app.use((req, res, next) => {
     const key = req.query.key;
     console.log(key);
     if (!key || key !== process.env.APIKEY) {
+        // return res.status(401).send("not authorized - sara");
         next(new Error("UNAUTH"));
     }
     else {
         return next();
     }
-    return next();
 });
 app.get("/health-check", function (_, res) {
     return __awaiter(this, void 0, void 0, function* () {

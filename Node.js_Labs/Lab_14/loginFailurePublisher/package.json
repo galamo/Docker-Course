@@ -1,0 +1,12 @@
+{
+  "name": "loginFailurePublisher",
+  "version": "1.0.0",
+  "description": "Microservice that sends login failure messages to RabbitMQ",
+  "main": "loginFailurePublisher.js",
+  "scripts": {
+    "start": "node loginFailurePublisher.js"
+  },
+  "dependencies": {
+    "amqplib": "^0.6.0"
+  }
+}
