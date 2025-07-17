@@ -46,6 +46,32 @@ app.get("/long-calculation", (req, res, next) => {
     for (let index = 0; index < 9999999999; index++) { }
     res.send(`Finished ${new Date().toISOString()}`);
 });
+function getResponseFromWorker(worker) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise((resolve, reject) => {
+            worker.on("message", (result) => {
+                console.log("Result from worker:", result);
+                resolve("Workere Finished");
+            });
+            worker.on("error", (error) => {
+                console.error("Worker error:", error);
+                reject("Error from worker");
+            });
+        });
+    });
+}
+app.get("/generate-report", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const worker = startWorker();
+    worker.postMessage({ task: "longCalculation", data: [1, 2, 3, 4, 5] });
+    try {
+        const result = yield getResponseFromWorker(worker);
+        return res.send(`Finished ${new Date().toISOString()} ___${result}`);
+    }
+    catch (error) {
+        console.log(error);
+        return next(new Error(error.message));
+    }
+}));
 function startWorker() {
     return new worker_threads_1.Worker(path_1.default.join(__dirname, "worker.js"));
 }

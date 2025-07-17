@@ -8,7 +8,7 @@ import data from "./c.json";
 import addRequestId from "./middleware/addRequestId";
 import { Worker } from "worker_threads";
 import path from "path";
-
+type WorkerType = typeof Worker;
 dotenv.config();
 const app = express();
 
@@ -35,6 +35,31 @@ app.get("/country", (req, res, next) => {
 app.get("/long-calculation", (req, res, next) => {
   for (let index = 0; index < 9999999999; index++) {}
   res.send(`Finished ${new Date().toISOString()}`);
+});
+
+async function getResponseFromWorker<T>(worker: any) {
+  return new Promise((resolve, reject) => {
+    worker.on("message", (result: T) => {
+      console.log("Result from worker:", result);
+      resolve("Workere Finished");
+    });
+    worker.on("error", (error: any) => {
+      console.error("Worker error:", error);
+      reject("Error from worker");
+    });
+  });
+}
+
+app.get("/generate-report", async (req, res, next) => {
+  const worker = startWorker();
+  worker.postMessage({ task: "longCalculation", data: [1, 2, 3, 4, 5] });
+  try {
+    const result = await getResponseFromWorker<string>(worker);
+    return res.send(`Finished ${new Date().toISOString()} ___${result}`);
+  } catch (error: any) {
+    console.log(error);
+    return next(new Error(error.message));
+  }
 });
 
 function startWorker() {
