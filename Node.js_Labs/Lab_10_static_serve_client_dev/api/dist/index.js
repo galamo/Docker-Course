@@ -14,11 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const cors_1 = __importDefault(require("cors"));
 const compression_1 = __importDefault(require("compression"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const requestLogger_1 = require("./middleware/requestLogger");
 const addRequestId_1 = __importDefault(require("./middleware/addRequestId"));
+const users_1 = __importDefault(require("./users"));
+const login_1 = __importDefault(require("./login"));
 const path_1 = __importDefault(require("path"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -27,24 +28,21 @@ const limiter = (0, express_rate_limit_1.default)({
     max: 1000,
     message: "Too Many Requests!",
 });
-app.use((0, cors_1.default)());
+// app.use(cors());
 app.use(requestLogger_1.requestLogger);
 app.use((0, compression_1.default)());
 app.use(addRequestId_1.default);
 app.use(limiter);
 app.use("/", express_1.default.static(path_1.default.join(__dirname, "public")));
 console.log(path_1.default.join(__dirname, "public"));
-app.get("/health-check", function (_, res) {
+app.get("/api/health-check", function (_, res) {
     return __awaiter(this, void 0, void 0, function* () {
         yield new Promise((resolve) => setTimeout(resolve, 2000));
         res.send(`Api is Healthy ${new Date().toISOString()}`);
     });
 });
-const router = express_1.default.Router();
-app.use("/api", router);
-router.get("/test", (req, res, next) => {
-    res.send(111);
-});
+app.use("/api/users", users_1.default);
+app.use("/api/login", login_1.default);
 app.use((error, req, res, next) => {
     console.log(res.get("x-request-id"), error.message);
     if (error.message === "UNAUTH") {

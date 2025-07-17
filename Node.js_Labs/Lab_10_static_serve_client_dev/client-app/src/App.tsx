@@ -16,7 +16,7 @@ const ApiRequestComponent = () => {
     setResponse(null);
 
     try {
-      const result = await axios.get("http://localhost:4000/api/");
+      const result = await axios.get("http://localhost/api/users?key=1");
       setResponse(result.data); // Set response data
       // @ts-ignore
     } catch (err) {
