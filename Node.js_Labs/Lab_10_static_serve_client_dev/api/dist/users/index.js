@@ -7,6 +7,8 @@ exports.users = void 0;
 const express_1 = __importDefault(require("express"));
 const getUserById_1 = require("./handlers/getUserById");
 const router = express_1.default.Router();
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 exports.users = [
     {
         id: 1,
@@ -100,8 +102,7 @@ exports.users = [
     },
 ];
 router.use((req, res, next) => {
-    if (!req.query.key)
-        return next(new Error());
+    // implemenet jwt verify! 
     next();
 });
 router.get("/", (req, res, next) => {

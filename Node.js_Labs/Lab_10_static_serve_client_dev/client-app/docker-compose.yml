@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules # Prevent node_modules overwrite from host
+    environment:
+      - HOST=0.0.0.0
+      - PORT=5173

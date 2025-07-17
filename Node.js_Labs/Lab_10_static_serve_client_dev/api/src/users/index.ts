@@ -1,7 +1,9 @@
 import express from "express";
 import { getUserById } from "./handlers/getUserById";
 const router = express.Router();
-
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 export const users = [
   {
     id: 1,
@@ -96,9 +98,11 @@ export const users = [
 ];
 
 router.use((req, res, next) => {
-  if (!req.query.key) return next(new Error());
+  // implemenet jwt verify! 
   next();
 });
+
+
 
 router.get("/", (req, res, next) => {
   res.json(users);

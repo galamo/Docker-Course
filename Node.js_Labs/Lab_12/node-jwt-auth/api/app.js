@@ -67,6 +67,7 @@ app.post("/login", (req, res) => {
       });
     }
   );
+  
 });
 
 app.get("/profile", authenticateJWT, (req, res) => {

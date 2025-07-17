@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
+const body_parser_1 = __importDefault(require("body-parser"));
 const compression_1 = __importDefault(require("compression"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const requestLogger_1 = require("./middleware/requestLogger");
@@ -28,7 +30,8 @@ const limiter = (0, express_rate_limit_1.default)({
     max: 1000,
     message: "Too Many Requests!",
 });
-// app.use(cors());
+app.use((0, cors_1.default)());
+app.use(body_parser_1.default.json()); // if client sends body in post - we can extract it
 app.use(requestLogger_1.requestLogger);
 app.use((0, compression_1.default)());
 app.use(addRequestId_1.default);

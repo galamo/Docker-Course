@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:20
 
 WORKDIR /app
 
@@ -7,4 +7,4 @@ RUN npm install
 
 COPY . .
 
-CMD ["node", "api/app.js"]
+CMD ["node", "app.js"]

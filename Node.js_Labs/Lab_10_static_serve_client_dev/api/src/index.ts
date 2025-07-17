@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import bodyParser from "body-parser";
 import comperssion from "compression";
 import rateLimit from "express-rate-limit";
 import { requestLogger } from "./middleware/requestLogger";
@@ -19,7 +20,8 @@ const limiter = rateLimit({
   message: "Too Many Requests!",
 });
 
-// app.use(cors());
+app.use(cors());
+app.use(bodyParser.json()); // if client sends body in post - we can extract it
 app.use(requestLogger);
 app.use(comperssion());
 app.use(addRequestId);

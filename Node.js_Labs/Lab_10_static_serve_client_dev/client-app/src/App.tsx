@@ -1,13 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import styles from "./index.module.css"; // Import the CSS module
+import LoginForm from "./Login";
 
 // The component that will handle both GET and POST requests
 const ApiRequestComponent = () => {
   // State to store responses and loading status
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading,   setLoading] = useState(false);
 
   // GET request handler
   const handleGetRequest = async () => {
@@ -34,8 +35,10 @@ const ApiRequestComponent = () => {
     setResponse(null);
 
     try {
-      const payload = { message: "Hello from React!" }; // Example payload
-      const result = await axios.post("http://localhost:4000/api/", payload);
+      const result = await axios.post("http://localhost:4000/api/login", {
+        userName: "Esty@gmail.com",
+        password: "12345",
+      });
       setResponse(result.data); // Set response data
       // @ts-ignore
     } catch (err: any) {
@@ -48,6 +51,7 @@ const ApiRequestComponent = () => {
 
   return (
     <div style={{ width: "100%", margin: "auto" }}>
+      {/* <LoginForm /> */}
       <div className={styles.container}>
         <h2>API Request Component</h2>
         <div className={styles.buttonContainer}>
