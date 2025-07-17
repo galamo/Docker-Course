@@ -33,7 +33,16 @@ app.use((0, compression_1.default)());
 app.use(addRequestId_1.default);
 app.use(limiter);
 app.use("/", express_1.default.static(path_1.default.join(__dirname, "public")));
-console.log(path_1.default.join(__dirname, "public"));
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   console.log("Protecting Front Static Applications");
+//   if (!req.headers["Authorization"]) {
+//     res.send("<h1> Go home </h1>");
+//   } else {
+//     next();
+//   }
+// });
+app.use("/agrot", express_1.default.static(path_1.default.join(__dirname, "public")));
+app.use("/savion", express_1.default.static(path_1.default.join(__dirname, "public")));
 app.get("/health-check", function (_, res) {
     return __awaiter(this, void 0, void 0, function* () {
         yield new Promise((resolve) => setTimeout(resolve, 2000));
