@@ -24,17 +24,6 @@ app.use(comperssion());
 app.use(addRequestId);
 app.use(limiter);
 
-// app.use((req, res, next) => {
-//   const key = req.query.key;
-//   console.log(key);
-//   if (!key || key !== process.env.APIKEY) {
-//     next(new Error("UNAUTH"));
-//   } else {
-//     return next();
-//   }
-//   return next();
-// });
-
 app.get("/health-check", async function (_, res) {
   res.send(`Api is Healthy ${new Date().toISOString()}`);
 });
@@ -58,13 +47,12 @@ app.get("/long-calculation-thread", (req, res, next) => {
 
   worker.on("message", (result) => {
     console.log("Result from worker:", result);
-    res.send(`Finished ${new Date().toISOString()}`);
+    res.send(`Finished ${new Date().toISOString()} ___` + result);
   });
   worker.on("error", (error) => {
     console.error("Worker error:", error);
+    return next(new Error("Error from worker"));
   });
-
-  // Handle worker exit (finish)
   worker.on("exit", (code) => {
     if (code !== 0) {
       console.error(`Worker stopped with exit code ${code}`);
