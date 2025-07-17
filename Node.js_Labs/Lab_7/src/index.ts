@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import comperssion from "compression";
@@ -6,6 +6,7 @@ import rateLimit from "express-rate-limit";
 import { requestLogger } from "./middleware/requestLogger";
 import data from "./c.json";
 import addRequestId from "./middleware/addRequestId";
+import { secureHeaders } from "./middleware/secureHeaders";
 
 dotenv.config();
 const app = express();
@@ -23,11 +24,16 @@ app.use(requestLogger);
 app.use(comperssion());
 app.use(addRequestId);
 app.use(limiter);
+app.use(secureHeaders);
 
 // helmet
 // xss
+interface MyReq extends Request {
+  user: { token: String };
+}
 
 app.use((req, res, next) => {
+  (req as MyReq).user = { token: "test_token_on_request" };
   const key = req.query.key;
   console.log(key);
   if (!key || key !== process.env.APIKEY) {
@@ -38,13 +44,19 @@ app.use((req, res, next) => {
   }
 });
 
-app.get("/health-check", async function (_, res) {
+app.get("/health-check", async function (req, res) {
   await new Promise((resolve) => setTimeout(resolve, 2000));
+  console.log((req as MyReq).user.token, "aaa");
   res.send(`Api is Healthy ${new Date().toISOString()}`);
 });
 
 app.get("/country", (req, res, next) => {
   res.json(data);
+});
+
+app.get("/login", (req, res, next) => {
+  res.setHeader("authorization", Date.now() + "_token");
+  res.json({ message: "user logged in" });
 });
 
 app.use((error: any, req: any, res: any, next: any) => {

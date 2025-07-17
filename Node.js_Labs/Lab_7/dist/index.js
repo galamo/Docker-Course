@@ -20,6 +20,7 @@ const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const requestLogger_1 = require("./middleware/requestLogger");
 const c_json_1 = __importDefault(require("./c.json"));
 const addRequestId_1 = __importDefault(require("./middleware/addRequestId"));
+const secureHeaders_1 = require("./middleware/secureHeaders");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const defaultMaxNumberOfReq = +(process.env.WINDOW_LIMIT || 1000);
@@ -33,9 +34,9 @@ app.use(requestLogger_1.requestLogger);
 app.use((0, compression_1.default)());
 app.use(addRequestId_1.default);
 app.use(limiter);
-// helmet
-// xss
+app.use(secureHeaders_1.secureHeaders);
 app.use((req, res, next) => {
+    req.user = { token: "test_token_on_request" };
     const key = req.query.key;
     console.log(key);
     if (!key || key !== process.env.APIKEY) {
@@ -46,14 +47,19 @@ app.use((req, res, next) => {
         return next();
     }
 });
-app.get("/health-check", function (_, res) {
+app.get("/health-check", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         yield new Promise((resolve) => setTimeout(resolve, 2000));
+        console.log(req.user.token, "aaa");
         res.send(`Api is Healthy ${new Date().toISOString()}`);
     });
 });
 app.get("/country", (req, res, next) => {
     res.json(c_json_1.default);
+});
+app.get("/login", (req, res, next) => {
+    res.setHeader("authorization", Date.now() + "_token");
+    res.json({ message: "user logged in" });
 });
 app.use((error, req, res, next) => {
     console.log(res.get("x-request-id"), error.message);
