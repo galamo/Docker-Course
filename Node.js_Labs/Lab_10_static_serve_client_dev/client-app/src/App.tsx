@@ -8,7 +8,7 @@ const ApiRequestComponent = () => {
   // State to store responses and loading status
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
-  const [loading,   setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // GET request handler
   const handleGetRequest = async () => {
@@ -17,7 +17,11 @@ const ApiRequestComponent = () => {
     setResponse(null);
 
     try {
-      const result = await axios.get("http://localhost/api/users?key=1");
+      const result = await axios.get("http://localhost/api/users?key=1", {
+        headers: {
+          Authorization: localStorage.getItem("token") || "",
+        },
+      });
       setResponse(result.data); // Set response data
       // @ts-ignore
     } catch (err) {
@@ -40,6 +44,7 @@ const ApiRequestComponent = () => {
         password: "12345",
       });
       setResponse(result.data); // Set response data
+      localStorage.setItem("token", result.data.token);
       // @ts-ignore
     } catch (err: any) {
       // @ts-ignore

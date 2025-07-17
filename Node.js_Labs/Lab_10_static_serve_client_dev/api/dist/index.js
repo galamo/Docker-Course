@@ -22,6 +22,7 @@ const requestLogger_1 = require("./middleware/requestLogger");
 const addRequestId_1 = __importDefault(require("./middleware/addRequestId"));
 const users_1 = __importDefault(require("./users"));
 const login_1 = __importDefault(require("./login"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const path_1 = __importDefault(require("path"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -40,12 +41,23 @@ app.use("/", express_1.default.static(path_1.default.join(__dirname, "public")))
 console.log(path_1.default.join(__dirname, "public"));
 app.get("/api/health-check", function (_, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield new Promise((resolve) => setTimeout(resolve, 2000));
+        // await new Promise((resolve) => setTimeout(resolve, 2000));
         res.send(`Api is Healthy ${new Date().toISOString()}`);
     });
 });
-app.use("/api/users", users_1.default);
 app.use("/api/login", login_1.default);
+app.use((req, res, next) => {
+    const token = req.header("Authorization") || "";
+    if (!token)
+        return next(new Error("No token"));
+    jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).send("Invalid or expired token");
+        }
+        next();
+    });
+});
+app.use("/api/users", users_1.default);
 app.use((error, req, res, next) => {
     console.log(res.get("x-request-id"), error.message);
     if (error.message === "UNAUTH") {

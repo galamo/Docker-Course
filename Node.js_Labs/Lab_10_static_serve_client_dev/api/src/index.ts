@@ -8,6 +8,7 @@ import { requestLogger } from "./middleware/requestLogger";
 import addRequestId from "./middleware/addRequestId";
 import usersRouter from "./users";
 import loginRouter from "./login";
+import jwt from "jsonwebtoken";
 
 import path from "path";
 
@@ -31,12 +32,22 @@ app.use("/", express.static(path.join(__dirname, "public")));
 console.log(path.join(__dirname, "public"));
 
 app.get("/api/health-check", async function (_, res) {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  // await new Promise((resolve) => setTimeout(resolve, 2000));
   res.send(`Api is Healthy ${new Date().toISOString()}`);
+});
+app.use("/api/login", loginRouter);
+app.use((req, res, next) => {
+  const token = req.header("Authorization") || "";
+  if (!token) return next(new Error("No token"));
+  jwt.verify(token as string, process.env.JWT_SECRET as string, (err, user) => {
+    if (err) {
+      return res.status(403).send("Invalid or expired token");
+    }
+    next();
+  });
 });
 
 app.use("/api/users", usersRouter);
-app.use("/api/login", loginRouter);
 
 app.use((error: any, req: any, res: any, next: any) => {
   console.log(res.get("x-request-id"), error.message);

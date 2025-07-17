@@ -20,7 +20,7 @@ router.post("/", (req, res, next) => {
     if (!data.userName || !data.password)
       throw new Error("Error missing passwrod/username");
     const token = signJWT(data.userName);
-    res.setHeader("Authorization", token).json({ message: "ok" });
+    res.setHeader("authorization", token).json({ message: "ok", token });
   } catch (error) {
     return next(error);
   }
