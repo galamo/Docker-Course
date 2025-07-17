@@ -1,0 +1,17 @@
+{
+  "name": "node-google-oauth",
+  "version": "1.0.0",
+  "description": "Node.js API with Google SSO authentication using Passport.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "express-session": "^1.17.2",
+    "mysql2": "^2.3.3",
+    "dotenv": "^8.2.0"
+  }
+}

@@ -38,5 +38,10 @@
 
 
 
-
-storybook exmaple
+2. client + server + db - compose
+3. MS rabbitmq
+4. authentication
+5. MFS
+6. fs - performance
+7. architecture
+8. tests

@@ -1,0 +1,9 @@
+CREATE DATABASE IF NOT EXISTS your_database;
+USE your_database;
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    google_id VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL
+);
