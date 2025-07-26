@@ -1,6 +1,4 @@
-Here’s your **Home Assignment** in a **README** file format for creating a Node.js application with TypeScript, Express, MySQL, and JWT authentication, following the requirements you provided:
 
----
 
 # **Home Assignment: Node.js API with MySQL and JWT Authentication**
 
