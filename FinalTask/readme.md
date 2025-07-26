@@ -1,6 +1,6 @@
 
 
-# **Home Assignment: Node.js API with MySQL and JWT Authentication**
+# **Home Assignment: Node.js API with MySQL and Docker**
 
 ## **Assignment Overview**
 
