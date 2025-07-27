@@ -124,22 +124,25 @@ Using the provided SQL script, create a MySQL schema (`ai_tools_catalog`) and po
 ### **SQL Starter Script** (for MySQL):
 
 ```sql
--- Drop schema if exists for re-creation (optional)
-DROP SCHEMA IF EXISTS ai_tools_catalog CASCADE;
+-- Drop database if exists (MySQL equivalent of schema)
+DROP DATABASE IF EXISTS ai_tools_catalog;
 
--- Create a new schema
-CREATE SCHEMA ai_tools_catalog;
+-- Create the database
+CREATE DATABASE ai_tools_catalog;
 
--- Switch to using the new schema
-SET search_path TO ai_tools_catalog;
+-- Select the database for use
+USE ai_tools_catalog;
 
 -- Create the ai_tools table
 CREATE TABLE ai_tools (
-    id SERIAL PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    year_published INT CHECK (year_published >= 1950 AND year_published <= EXTRACT(YEAR FROM CURRENT_DATE)),
-    cost_usd_per_month DECIMAL(10,2) CHECK (cost_usd_per_month >= 0),
-    average_monthly_users INT CHECK (average_monthly_users >= 0)
+    year_published INT,
+    cost_usd_per_month DECIMAL(10,2),
+    average_monthly_users INT,
+    CHECK (year_published >= 1950 AND year_published <= YEAR(CURDATE())),
+    CHECK (cost_usd_per_month >= 0),
+    CHECK (average_monthly_users >= 0)
 );
 
 -- Insert sample data into ai_tools
@@ -155,6 +158,7 @@ VALUES
     ('Synthesia', 2020, 30.00, 350000),
     ('Runway ML', 2021, 12.00, 700000),
     ('Claude (Anthropic)', 2023, 0.00, 3000000);
+
 ```
 
 ---
